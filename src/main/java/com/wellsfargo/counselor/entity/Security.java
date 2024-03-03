@@ -5,62 +5,55 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
-@Table(name = "securities")
+@Table(name = "security")
 public class Security {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long securityId;
 
-    @Column(nullable = false)
-    private String name;
+    @Column(name = "security_name", nullable = false)
+    private String securityName;
 
-    @Column(nullable = false)
-    private String category;
+    @Column(name = "security_category", nullable = false)
+    private String securityCategory;
 
-    @Column(nullable = false)
+    @Column(name = "purchase_date", nullable = false)
     private Date purchaseDate;
 
     @Column(nullable = false)
     private BigDecimal quantity;
 
-    @Column(nullable = false)
-    private BigDecimal purchasePrice;
-
-    protected Security() {
-    }
-
-    public Security(String name, String category, Date purchaseDate, BigDecimal quantity, BigDecimal purchasePrice) {
-        this.name = name;
-        this.category = category;
-        this.purchaseDate = purchaseDate;
-        this.quantity = quantity;
-        this.purchasePrice = purchasePrice;
-    }
+    @ManyToOne
+    @JoinColumn(name = "portfolio_id")
+    private Portfolio portfolio;
 
     public Long getSecurityId() {
         return securityId;
     }
 
-    public String getName() {
-        return name;
+
+    public String getSecurityName() {
+        return securityName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setSecurityName(String securityName) {
+        this.securityName = securityName;
     }
 
-    public String getCategory() {
-        return category;
+    public String getSecurityCategory() {
+        return securityCategory;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setSecurityCategory(String securityCategory) {
+        this.securityCategory = securityCategory;
     }
 
     public Date getPurchaseDate() {
@@ -79,11 +72,11 @@ public class Security {
         this.quantity = quantity;
     }
 
-    public BigDecimal getPurchasePrice() {
-        return purchasePrice;
+    public Portfolio getPortfolio() {
+        return portfolio;
     }
 
-    public void setPurchasePrice(BigDecimal purchasePrice) {
-        this.purchasePrice = purchasePrice;
+    public void setPortfolio(Portfolio portfolio) {
+        this.portfolio = portfolio;
     }
 }

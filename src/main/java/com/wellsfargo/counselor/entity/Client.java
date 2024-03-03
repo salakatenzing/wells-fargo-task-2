@@ -5,24 +5,27 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "clients")
+@Table(name = "client")
 public class Client {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long clientId;
 
-    @Column(nullable = false)
+    @Column(name = "first_name", nullable = false)
     private String firstName;
 
-    @Column(nullable = false)
+    @Column(name = "last_name", nullable = false)
     private String lastName;
 
-    @Column(nullable = false)
-    private String phone;
+    @Column(name = "phone_number", nullable = false)
+    private String phoneNumber;
 
     @Column(nullable = false)
     private String address;
@@ -33,17 +36,12 @@ public class Client {
     @Column(nullable = false)
     private String state;
 
-    protected Client() {
-    }
+    @ManyToOne
+    @JoinColumn(name = "advisor_id")
+    private Advisor advisor;
 
-    public Client(String firstName, String lastName, String phone, String address, String city, String state) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.phone = phone;
-        this.address = address;
-        this.city = city;
-        this.state = state;
-    }
+    @OneToOne(mappedBy = "client")
+    private Portfolio portfolio;
 
     public Long getClientId() {
         return clientId;
@@ -65,12 +63,12 @@ public class Client {
         this.lastName = lastName;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public String getAddress() {
@@ -95,5 +93,21 @@ public class Client {
 
     public void setState(String state) {
         this.state = state;
+    }
+
+    public Advisor getAdvisor() {
+        return advisor;
+    }
+
+    public void setAdvisor(Advisor advisor) {
+        this.advisor = advisor;
+    }
+
+    public Portfolio getPortfolio() {
+        return portfolio;
+    }
+
+    public void setPortfolio(Portfolio portfolio) {
+        this.portfolio = portfolio;
     }
 }

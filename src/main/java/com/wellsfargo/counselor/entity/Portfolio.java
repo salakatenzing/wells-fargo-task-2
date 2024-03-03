@@ -5,48 +5,46 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.OneToMany;
+import java.util.Set;
 
 @Entity
-@Table(name = "portfolios")
+@Table(name = "portfolio")
 public class Portfolio {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long portfolioId;
 
-    // Assuming additional attributes that define a Portfolio but are independent of Client/Security relationships
-    @Column(nullable = false)
-    private String portfolioName;
+    @OneToOne
+    @JoinColumn(name = "client_id")
+    private Client client;
 
-    @Column(nullable = true)
-    private String description;
-
-    protected Portfolio() {
-    }
-
-    public Portfolio(String portfolioName, String description) {
-        this.portfolioName = portfolioName;
-        this.description = description;
-    }
+    @OneToMany
+    private Set<Security> securities;
 
     public Long getPortfolioId() {
         return portfolioId;
     }
 
-    public String getPortfolioName() {
-        return portfolioName;
+    public Client getClient() {
+        return client;
     }
 
-    public void setPortfolioName(String portfolioName) {
-        this.portfolioName = portfolioName;
+    public void setClient(Client client) {
+        this.client = client;
     }
 
-    public String getDescription() {
-        return description;
+    public Set<Security> getSecurities() {
+        return securities;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setSecurities(Set<Security> securities) {
+        this.securities = securities;
     }
 }
